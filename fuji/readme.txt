@@ -1,0 +1,1 @@
+Selenium version to support CDP 131 is not available, hence latest chrome driver is not testable. To be updated once available
