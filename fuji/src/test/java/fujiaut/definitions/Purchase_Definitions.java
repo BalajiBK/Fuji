@@ -1,6 +1,7 @@
 package fujiaut.definitions;
 
 import PageObjects.*;
+import helpers.excelhelper;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 import io.cucumber.java.After;
@@ -13,13 +14,18 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import org.testng.Assert;
+
+import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
 
 public class Purchase_Definitions {
 
     private static WebDriver driver;
     public final static int TIMEOUT = 10;
     public LandingPage landingPage;
+    public CheckoutPage checkoutPage;
+
 
     @Before
     public void setUp() {
@@ -66,16 +72,8 @@ public class Purchase_Definitions {
 
         landingPage.click_on_shop();
         CartPage cartPage=landingPage.click_on_cartspage();
-        CheckoutPage checkoutPage=cartPage.click_btn_checkout();
-        FinishPage finishPage=checkoutPage.enter_AccountInfo();
-        finishPage.click_finish();
+        checkoutPage=cartPage.click_btn_checkout();
 
-        landingPage.click_on_shop();
-
-        landingPage.click_on_menstshirts();
-
-        landingPage.click_on_shop();
-        landingPage.click_on_womenstshirts();
         System.out.println("Not Implemented"+myitem);
     }
 
@@ -105,7 +103,17 @@ public class Purchase_Definitions {
     }
 
     @And("fill the account and payment information of {string}")
-    public void fillTheAccountAndPaymentInformationOf(String arg0) {
+    public void fillTheAccountAndPaymentInformationOf(String arg0) throws IOException {
+        HashMap<String, String> account_info_map=new excelhelper().readexcel("userinformation.xlsx");
+        FinishPage finishPage=checkoutPage.enter_AccountInfo(account_info_map);
+        finishPage.click_finish();
+
+        landingPage.click_on_shop();
+
+        landingPage.click_on_menstshirts();
+
+        landingPage.click_on_shop();
+        landingPage.click_on_womenstshirts();
         System.out.println("Not Implemented");
     }
 

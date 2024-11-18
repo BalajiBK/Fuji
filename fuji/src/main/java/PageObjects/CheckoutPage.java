@@ -10,6 +10,8 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.HashMap;
+
 public class CheckoutPage {
     WebDriver driver;
     waithelpers _waithelpers;
@@ -72,10 +74,23 @@ public class CheckoutPage {
     @FindBy(how = How.CSS,using = "input[value='Place Order']")
     private WebElement btn_placeorder;
 
-    public FinishPage enter_AccountInfo()
+    public FinishPage enter_AccountInfo(HashMap<String,String> account_info_map)
     {
-        txt_accountemail.sendKeys("abc@abc.com");
-        txt_accountPhone.sendKeys("1111111111");
+//        Email
+//                Phone
+//        Address
+//                City
+//        State
+//                Zip
+//        Country
+//        Cardholder Name
+//        Card Number
+//        Expiry_Month
+//                Expiry_Year
+//        Cvv
+        txt_accountemail.sendKeys(account_info_map.get("Email"));
+        txt_accountPhone.sendKeys(account_info_map.get("Phone"));
+
 //        b. Shipping Address
 //#  i. Address- 1 abc street
 //#  ii. City- abc
@@ -84,25 +99,25 @@ public class CheckoutPage {
 //#  v. Country-Canada
 
 
-        txt_shipAddress.sendKeys("1 abc street");
-        txt_city.sendKeys("abc");
-        txt_state.sendKeys("abc");
-        txt_zip.sendKeys("123456");
+        txt_shipAddress.sendKeys(account_info_map.get("Address"));
+        txt_city.sendKeys(account_info_map.get("City"));
+        txt_state.sendKeys(account_info_map.get("State"));
+        txt_zip.sendKeys(account_info_map.get("Zip"));
 
-        selectitemfromlist(slct_country,"CA");
+        selectitemfromlist(slct_country,account_info_map.get("Country"));
 
 
 //        #  i. Cardholder Name – ABC ABC
 //#  ii. Card Number - 1111111111111111
 //#  iii. Expiry – Feb 2026
 //#  iv. CVV- 123
-        txt_cardholdername.sendKeys("ABC ABC");
-        txt_cardnumber.sendKeys("1111111111111111");
+        txt_cardholdername.sendKeys(account_info_map.get("Cardholder Name"));
+        txt_cardnumber.sendKeys(account_info_map.get("Card Number"));
 
-        selectitemfromlist(select_cardexpmnth,"02");
-        selectitemfromlist(select_cardexpyear,"2026");
+        selectitemfromlist(select_cardexpmnth,account_info_map.get("Expiry_Month"));
+        selectitemfromlist(select_cardexpyear,account_info_map.get("Expiry_Year"));
 
-        txt_cvv.sendKeys("123");
+        txt_cvv.sendKeys(account_info_map.get("Cvv"));
 
 
         btn_placeorder.click();
