@@ -11,9 +11,9 @@ Feature: Purchase Items
       |Men's Tech Shell Full-Zip|XL|2|50.20|Men's Outerwear|
       |Ladies Modern Stretch Full Zip|XS|3|41.60|Ladies Outerwear|
     And Verify the cart for the following
-    |item Name|Size|Quantity|Total|
-    |Men's Tech Shell Full-Zip|XL|2|50.20|
-    |Ladies Modern Stretch Full Zip|XS|3|41.60|
+      |item Name|Size|Quantity|Total|Category|
+      |Men's Tech Shell Full-Zip|XL|2|$50.20|Men's Outerwear|
+      |Ladies Modern Stretch Full Zip|XS|3|$41.60|Ladies Outerwear|
     When the user checksout the cart
     And fill the account and payment information of "UserA" and place order
     Then verify Thank You message

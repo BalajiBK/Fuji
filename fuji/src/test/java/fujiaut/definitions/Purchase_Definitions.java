@@ -22,8 +22,8 @@ import java.util.Map;
 
 public class Purchase_Definitions {
 
-    private static WebDriver driver;
     public final static int TIMEOUT = 10;
+    private static WebDriver driver;
     public LandingPage landingPage;
     public CheckoutPage checkoutPage;
     public CartPage cartPage;
@@ -33,10 +33,11 @@ public class Purchase_Definitions {
     @Before
     public void setUp() {
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--start-maximized");
 //        driver = new ChromeDriver(options);
         driver = new FirefoxDriver();
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
 
@@ -91,7 +92,24 @@ public class Purchase_Definitions {
     public void verifyTheCartForTheFollowing(DataTable cartitem) {
 
         cartPage=landingPage.click_on_cartspage();
+        List<Map<String, String>> rows = cartitem.asMaps(String.class, String.class);
+        ProductListingPage productListingPage=null;
+        ProductPage productspage=null;
+        for (Map<String, String> columns : rows) {
+            productcatalog.addProduct(new product(columns.get("item Name"), columns.get("Size"), columns.get("Quantity"), columns.get("Total"), columns.get("Category")));
+        }
+        for (product item : productcatalog.getProducts()) {
+            if (item.getCategory().equals("Men's Outerwear")) {
+                boolean verification = cartPage.verifyTheCart(item.getItemName(), item.getSize(), item.getQuantity(), item.getTotal(), 1);
+                Assert.assertTrue(verification);
+            } else if (item.getCategory().equals("Ladies Outerwear")) {
+                boolean verification = cartPage.verifyTheCart(item.getItemName(), item.getSize(), item.getQuantity(), item.getTotal(), 2);
+                Assert.assertTrue(verification);
+            }
+        }
         // Verify the cart
+//        System.out.println(cartPage.verifyTheCart());
+
     }
 
     @When("the user checksout the cart")
@@ -115,7 +133,6 @@ public class Purchase_Definitions {
 
     @Then("verify Thank You message")
     public void verifyThankYouMessage() {
-//        Assert.assertTrue(finishPage.txt_thankyou.isDisplayed());
         String msg = finishPage.get_thankyou_message();
         Assert.assertEquals(msg,"Thank you");
     }
