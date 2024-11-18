@@ -1,6 +1,9 @@
 package PageObjects;
 
 import helpers.waithelpers;
+import net.bytebuddy.implementation.bind.annotation.Super;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -9,11 +12,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-public class MensoutwearPage {
+public class ProductListingPage extends SuperPage{
     WebDriver driver;
     waithelpers _waithelpers;
+    private static final Logger mylogger = LogManager.getLogger(ProductListingPage.class);
 
-    public MensoutwearPage(WebDriver driver)
+    public ProductListingPage(WebDriver driver)
     {
 //        //This Element is inside 2 nested shadow DOM.
         String cssSelectorForHost1 = "shop-app[page='list']";
@@ -30,6 +34,8 @@ public class MensoutwearPage {
 
         PageFactory.initElements(shadow1,this);
         this.driver=driver;
+
+        mylogger.info("ProductListingPage Loaded");
     }
 
     @FindBy(how = How.CSS, using = "a[href='/detail/mens_outerwear/Men+s+Tech+Shell+Full-Zip']")
@@ -40,13 +46,14 @@ public class MensoutwearPage {
 
     public ProductPage clickon_Mens_Tech_Shell_Full_Zip()
     {
-        Mens_Tech_Shell_Full_Zip.click();
+
+        elementHelpers.waitforelement_click(driver,Mens_Tech_Shell_Full_Zip,"Mens_Tech_Shell_Full_Zip",mylogger);
         return new ProductPage(this.driver);
     }
 
     public ProductPage clickon_Ladies_Modern_Stretch_Full_Zip()
     {
-        Womens_Tech_Shell_Full_Zip.click();
+        elementHelpers.waitforelement_click(driver,Womens_Tech_Shell_Full_Zip,"Womens_Tech_Shell_Full_Zip",mylogger);
         return new ProductPage(this.driver);
     }
 

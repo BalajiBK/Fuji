@@ -1,6 +1,8 @@
 package PageObjects;
 
 import helpers.waithelpers;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -10,8 +12,9 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
 
-public class ProductPage {
+public class ProductPage extends SuperPage {
     WebDriver driver;
+    private static final Logger mylogger = LogManager.getLogger(ProductPage.class);
 
     public ProductPage(WebDriver driver) {
         String cssSelectorForHost1 = "shop-app[page='detail']";
@@ -26,9 +29,8 @@ public class ProductPage {
         PageFactory.initElements(shadow1, this);
         this.driver = driver;
 
-        //This Element is inside 2 nested shadow DOM.
 
-        shadow1.findElement(By.cssSelector("#sizeSelect"));
+        mylogger.info("ProductPage Loaded");
     }
 
     @FindBy(how = How.CSS, using = "#sizeSelect")
@@ -43,14 +45,17 @@ public class ProductPage {
 
 
     public void EnterSize(String size) {
-        sizeSelector.sendKeys(size);
+//        sizeSelector.sendKeys(size);
+        elementHelpers.waitforelement_sendkeys(driver,sizeSelector,"Size",size,mylogger);
     }
 
     public void EnterQuantity(String Qty) {
-        quantitySelector.sendKeys(Qty);
+//        quantitySelector.sendKeys(Qty);
+        elementHelpers.waitforelement_sendkeys(driver,quantitySelector,"Quantity",Qty,mylogger);
     }
 
     public void AddToCart(){
-        btnAddToCart.click();
+//        btnAddToCart.click();
+        elementHelpers.waitforelement_click(driver,btnAddToCart,"Add to Cart",mylogger);
     }
 }

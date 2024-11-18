@@ -16,6 +16,7 @@
         <cucumber.version>7.20.1</cucumber.version>
         <selenium.version>4.26.0</selenium.version>
         <testng.version>7.10.2</testng.version>
+        <log4j.version>2.24.1</log4j.version>
         <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.2.3</maven.surefire.plugin.version>
         <maven.compiler.source.version>17</maven.compiler.source.version>
@@ -35,6 +36,22 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+
 
         <!-- Selenium -->
         <dependency>

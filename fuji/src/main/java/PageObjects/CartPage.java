@@ -1,6 +1,9 @@
 package PageObjects;
 
+import helpers.ElementHelpers;
 import helpers.waithelpers;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -9,9 +12,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-public class CartPage {
-    WebDriver driver;
-    waithelpers _waithelpers;
+public class CartPage extends SuperPage {
+
+    private static final Logger mylogger = LogManager.getLogger(CartPage.class);
+
     public CartPage(WebDriver driver)
     {
         //This Element is inside 2 nested shadow DOM.
@@ -30,6 +34,7 @@ public class CartPage {
 
         PageFactory.initElements(shadow1,this);
         this.driver=driver;
+        mylogger.info("CartPage Loaded");
     }
 
     @FindBy(how = How.CSS, using = "a[href='/checkout']")
@@ -37,7 +42,7 @@ public class CartPage {
 
     public CheckoutPage click_btn_checkout()
     {
-        btn_checkout.click();
+        elementHelpers.waitforelement_click(driver,btn_checkout,"Checkout",mylogger);
         return new CheckoutPage(this.driver);
     }
 }

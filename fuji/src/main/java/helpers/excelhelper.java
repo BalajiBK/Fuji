@@ -1,5 +1,8 @@
 package helpers;
 
+import PageObjects.CheckoutPage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,6 +18,7 @@ import java.util.Map;
 
 
 public class excelhelper {
+    private static final Logger mylogger = LogManager.getLogger(excelhelper.class);
 
     public HashMap<String, String> readexcel(String filename) throws IOException {
         FileInputStream file = new FileInputStream(new File(filename));
@@ -30,7 +34,7 @@ public class excelhelper {
                 = new HashMap<String, String>();
         String value ="";
         for (int r = 0; r <= sh.getLastRowNum(); r++) {
-            System.out.println("Row Number"+r);
+            mylogger.debug("Row Number"+r);
             String key = sh.getRow(r)
                     .getCell(0)
                     .getStringCellValue();
@@ -58,7 +62,7 @@ public class excelhelper {
                     = (Map.Entry<String, String>)
                     new_Iterator.next();
 
-            System.out.println(new_Map.getKey() + "|"
+            mylogger.debug(new_Map.getKey() + "|"
                     + new_Map.getValue());
         }
         wb.close();

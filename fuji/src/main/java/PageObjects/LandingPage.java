@@ -1,21 +1,25 @@
 package PageObjects;
-import java.util.List;
 
+import helpers.ElementHelpers;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
-public class LandingPage {
-    WebDriver driver;
+public class LandingPage extends SuperPage{
+
+    private static final Logger mylogger = LogManager.getLogger(LandingPage.class);
+
     public LandingPage(WebDriver driver) {
         SearchContext shadow = driver.findElement(By.cssSelector("shop-app[page='home']")).getShadowRoot();
         PageFactory.initElements(shadow, this);
         this.driver=driver;
+        mylogger.info("Landing Page Loaded");
     }
 
     @FindBy(how = How.CSS, using = "a[href='/list/mens_outerwear']")
@@ -40,18 +44,19 @@ public class LandingPage {
 
 
     public void click_on_shop() {
-        shop_home_lnk.click();
+        elementHelpers.waitforelement_click(driver,shop_home_lnk,"Shop Home Link",mylogger);
     }
 
-    public MensoutwearPage click_on_mensoutwear(){
-        System.out.println("Using the shadow context driver to find element");
-        mens_outwear_lnk.click();
-        return new MensoutwearPage(this.driver);
+    public ProductListingPage click_on_mensoutwear(){
+
+        elementHelpers.waitforelement_click(driver,mens_outwear_lnk,"Mens Outwear Link",mylogger);
+        return new ProductListingPage(this.driver);
     }
 
-    public MensoutwearPage click_on_womensoutwear(){
-        womens_outwear_lnk.click();
-        return new MensoutwearPage(this.driver);
+    public ProductListingPage click_on_womensoutwear(){
+        elementHelpers.waitforelement_click(driver,womens_outwear_lnk,"Womens Outwear Link",mylogger);
+
+        return new ProductListingPage(this.driver);
     }
 
     public void click_on_menstshirts(){
@@ -64,7 +69,7 @@ public class LandingPage {
 
     public CartPage click_on_cartspage()
     {
-        shopping_cart.click();
+        elementHelpers.waitforelement_click(driver,shopping_cart,"Shopping Cart",mylogger);
         return new CartPage(this.driver);
     }
 }

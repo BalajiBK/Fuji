@@ -1,6 +1,9 @@
 package PageObjects;
 
+import helpers.ElementHelpers;
 import helpers.waithelpers;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -12,9 +15,10 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.HashMap;
 
-public class CheckoutPage {
-    WebDriver driver;
-    waithelpers _waithelpers;
+public class CheckoutPage extends SuperPage{
+
+    private static final Logger mylogger = LogManager.getLogger(CheckoutPage.class);
+
     public CheckoutPage(WebDriver driver)
     {
         //This Element is inside 2 nested shadow DOM.
@@ -32,6 +36,7 @@ public class CheckoutPage {
 
         PageFactory.initElements(shadow1,this);
         this.driver = driver;
+        mylogger.info("CheckoutPage Loaded");
     }
 
     @FindBy(how = How.CSS, using = "#accountEmail")
@@ -76,59 +81,49 @@ public class CheckoutPage {
 
     public FinishPage enter_AccountInfo(HashMap<String,String> account_info_map)
     {
-//        Email
-//                Phone
-//        Address
-//                City
-//        State
-//                Zip
-//        Country
-//        Cardholder Name
-//        Card Number
-//        Expiry_Month
-//                Expiry_Year
-//        Cvv
-        txt_accountemail.sendKeys(account_info_map.get("Email"));
-        txt_accountPhone.sendKeys(account_info_map.get("Phone"));
+//        txt_accountemail.sendKeys(account_info_map.get("Email"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_accountemail,"Email",account_info_map.get("Email"),mylogger);
 
-//        b. Shipping Address
-//#  i. Address- 1 abc street
-//#  ii. City- abc
-//#  iii. State-abc
-//#  iv. Zip-123456
-//#  v. Country-Canada
+//        txt_accountPhone.sendKeys(account_info_map.get("Phone"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_accountPhone,"Phone",account_info_map.get("Phone"),mylogger);
+
+//        txt_shipAddress.sendKeys(account_info_map.get("Address"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_shipAddress,"Address",account_info_map.get("Address"),mylogger);
+
+//        txt_city.sendKeys(account_info_map.get("City"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_city,"City",account_info_map.get("City"),mylogger);
+
+//        txt_state.sendKeys(account_info_map.get("State"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_state,"State",account_info_map.get("State"),mylogger);
+
+//        txt_zip.sendKeys(account_info_map.get("Zip"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_zip,"Zip",account_info_map.get("Zip"),mylogger);
 
 
-        txt_shipAddress.sendKeys(account_info_map.get("Address"));
-        txt_city.sendKeys(account_info_map.get("City"));
-        txt_state.sendKeys(account_info_map.get("State"));
-        txt_zip.sendKeys(account_info_map.get("Zip"));
+//        selectitemfromlist(slct_country,account_info_map.get("Country"));
+        elementHelpers.selectitemfromlist(driver,slct_country,account_info_map.get("Country"),"Country_Dropdown",mylogger);
 
-        selectitemfromlist(slct_country,account_info_map.get("Country"));
+//        txt_cardholdername.sendKeys(account_info_map.get("Cardholder Name"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_cardholdername,"Cardholder Name",account_info_map.get("Cardholder Name"),mylogger);
 
+//        txt_cardnumber.sendKeys(account_info_map.get("Card Number"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_cardnumber,"Card Number",account_info_map.get("Card Number"),mylogger);
 
-//        #  i. Cardholder Name – ABC ABC
-//#  ii. Card Number - 1111111111111111
-//#  iii. Expiry – Feb 2026
-//#  iv. CVV- 123
-        txt_cardholdername.sendKeys(account_info_map.get("Cardholder Name"));
-        txt_cardnumber.sendKeys(account_info_map.get("Card Number"));
+//        selectitemfromlist(select_cardexpmnth,account_info_map.get("Expiry_Month"));
+//        selectitemfromlist(select_cardexpyear,account_info_map.get("Expiry_Year"));
 
-        selectitemfromlist(select_cardexpmnth,account_info_map.get("Expiry_Month"));
-        selectitemfromlist(select_cardexpyear,account_info_map.get("Expiry_Year"));
+        elementHelpers.selectitemfromlist(driver,select_cardexpmnth,account_info_map.get("Expiry_Month"),"Expiry_Month",mylogger);
+        elementHelpers.selectitemfromlist(driver,select_cardexpyear,account_info_map.get("Expiry_Year"),"Expiry_Year",mylogger);
 
-        txt_cvv.sendKeys(account_info_map.get("Cvv"));
+//        txt_cvv.sendKeys(account_info_map.get("Cvv"));
+        elementHelpers.waitforelement_sendkeys(driver,txt_cvv,"Cvv",account_info_map.get("Cvv"),mylogger);
 
-
-        btn_placeorder.click();
-
+//        btn_placeorder.click();
+        elementHelpers.waitforelement_click(driver,btn_placeorder,"Place Order",mylogger);
+        
         return new FinishPage(this.driver);
 
     }
 
-    public void selectitemfromlist(WebElement selectElement,String itemtobeselected)
-    {
-        Select select = new Select(selectElement);
-        select.selectByValue(itemtobeselected);
-    }
+
 }
